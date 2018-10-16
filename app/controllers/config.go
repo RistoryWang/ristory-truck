@@ -38,7 +38,7 @@ func (this *ConfigController) Add() {
 		p := &entity.Config{}
 		p.Name = this.GetString("project_name")
 		p.Type = this.GetString("project_type")
-		p.AppProperties = this.GetString("app_properties")
+		p.ApplicationProperties = this.GetString("application_properties")
 		p.Log4jProperties = this.GetString("log4j_properties")
 		p.ProdYml = this.GetString("prod_yml")
 		p.Domain = this.GetString("project_domain")
@@ -86,7 +86,7 @@ func (this *ConfigController) Edit() {
 	if this.isPost() {
 		p.Name = this.GetString("project_name")
 		p.Type = this.GetString("project_type")
-		p.AppProperties = this.GetString("app_properties")
+		p.ApplicationProperties = this.GetString("application_properties")
 		p.Log4jProperties = this.GetString("log4j_properties")
 		p.ProdYml = this.GetString("prod_yml")
 		p.AgentId, _ = this.GetInt("agent_id")
@@ -108,7 +108,7 @@ func (this *ConfigController) Edit() {
 			this.showMsg(err.Error(), MSG_ERR)
 		}
 
-		err := service.ConfigService.UpdateConfig(p, "Name", "AppProperties", "Log4jProperties", "ProdYml", "AgentId", "IgnoreList", "BeforeShell", "AfterShell", "RepoUrl", "CreateVerfile", "VerfilePath", "TaskReview")
+		err := service.ConfigService.UpdateConfig(p, "Name", "ApplicationProperties", "Log4jProperties", "ProdYml", "AgentId", "IgnoreList", "BeforeShell", "AfterShell", "RepoUrl", "CreateVerfile", "VerfilePath", "TaskReview")
 		this.checkError(err)
 
 		service.ActionService.Add("edit_config", this.auth.GetUserName(), "config", p.Id, "")

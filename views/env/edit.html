@@ -5,13 +5,23 @@
 			<input type="hidden" name="id" value="{{.env.Id}}" />
 			<input type="hidden" name="type" value="{{.env.Type}}" />
 
-		<div class="form-group">
+			<div class="form-group">
 				<label for="name" class="col-sm-2 control-label">发布环境名称</label>
 				<div class="col-sm-3">
 					<input type="text" class="form-control" id="name" name="name" value="{{.env.Name}}">
 				</div>
 			</div>
-			
+            <div class="form-group">
+                <label for="env_type" class="col-sm-2 control-label">发布环境类型</label>
+                <div class="col-sm-3">
+                    <select name="env_type">
+                        <option value="">请选择</option>
+                        <option value="dev">开发环境(dev)</option>
+                        <option value="test">测试环境(test* + uat)</option>
+                        <option value="prod">正式环境(gray + prod)</option>
+					</select>
+                </div>
+            </div>
 			<div class="form-group">
 				<label for="ssh_user" class="col-sm-2 control-label">SSH帐号</label>
 				<div class="col-sm-3">
@@ -70,33 +80,33 @@
 			<div class="hr hr-16 hr-dotted"></div>
 
 
-		<div class="form-group">
-			<label id="label_app_properties" for="app_properties" class="col-sm-2 control-label">app.properties</label>
-			<div class="col-sm-6">
-				<textarea name="app_properties" id="app_properties" rows="15" class="form-control" placeholder="java基础配置">{{.env.AppProperties}}</textarea>
-			</div>
-		</div>
+		{{/*<div class="form-group">*/}}
+			{{/*<label id="label_application_properties" for="application_properties" class="col-sm-2 control-label">application.properties</label>*/}}
+			{{/*<div class="col-sm-6">*/}}
+				{{/*<textarea name="application_properties" id="application_properties" rows="15" class="form-control" placeholder="java基础配置">{{.env.ApplicationProperties}}</textarea>*/}}
+			{{/*</div>*/}}
+		{{/*</div>*/}}
 
-		<div class="form-group">
-			<label id="label_log4j_properties" for="log4j_properties" class="col-sm-2 control-label">log4j.properties</label>
-			<div class="col-sm-6">
-				<textarea name="log4j_properties" id="log4j_properties" rows="15" class="form-control" placeholder="java日志配置">{{.env.Log4jProperties}}</textarea>
-			</div>
-		</div>
+		{{/*<div class="form-group">*/}}
+			{{/*<label id="label_log4j_properties" for="log4j_properties" class="col-sm-2 control-label">log4j.properties</label>*/}}
+			{{/*<div class="col-sm-6">*/}}
+				{{/*<textarea name="log4j_properties" id="log4j_properties" rows="15" class="form-control" placeholder="java日志配置">{{.env.Log4jProperties}}</textarea>*/}}
+			{{/*</div>*/}}
+		{{/*</div>*/}}
 
-		<div class="form-group">
-			<label id="label_prod_yml" for="prod_yml" class="col-sm-2 control-label">prod.yml</label>
-			<div class="col-sm-6">
-				<textarea name="prod_yml" id="prod_yml" rows="15" class="form-control" placeholder="node配置">{{.env.ProdYml}}</textarea>
-			</div>
-		</div>
+		{{/*<div class="form-group">*/}}
+			{{/*<label id="label_prod_yml" for="prod_yml" class="col-sm-2 control-label">prod.yml</label>*/}}
+			{{/*<div class="col-sm-6">*/}}
+				{{/*<textarea name="prod_yml" id="prod_yml" rows="15" class="form-control" placeholder="node配置">{{.env.ProdYml}}</textarea>*/}}
+			{{/*</div>*/}}
+		{{/*</div>*/}}
 
-		<div class="form-group">
-			<label id="label_remote_sh" for="remote_sh" class="col-sm-2 control-label">shell.param</label>
-			<div class="col-sm-6">
-				<textarea name="remote_sh" id="remote_sh" rows="15" class="form-control" placeholder="shell配置">{{.env.RemoteSh}}</textarea>
-			</div>
-		</div>
+		{{/*<div class="form-group">*/}}
+			{{/*<label id="label_remote_sh" for="remote_sh" class="col-sm-2 control-label">shell.param</label>*/}}
+			{{/*<div class="col-sm-6">*/}}
+				{{/*<textarea name="remote_sh" id="remote_sh" rows="15" class="form-control" placeholder="shell配置">{{.env.RemoteSh}}</textarea>*/}}
+			{{/*</div>*/}}
+		{{/*</div>*/}}
 
 
 		<div class="hr hr-16 hr-dotted"></div>
@@ -146,25 +156,25 @@ $(function() {
     for (var k in serverIds) {
         $('#server-'+serverIds[k]).attr('checked', true);
     }
-    if ($("input[name='type']").val() == "node") {
-        $('#app_properties').hide();
-        $('#label_app_properties').hide();
-        $('#log4j_properties').hide();
-        $('#label_log4j_properties').hide();
-        $('#remote_sh').hide();
-        $('#label_remote_sh').hide();
-    } else if ($("input[name='type']").val() == "java"){
-        $('#prod_yml').hide();
-        $('#label_prod_yml').hide();
-        $('#remote_sh').hide();
-        $('#label_remote_sh').hide();
-    }else if ($("input[name='type']").val() == "shell"){
-        $('#app_properties').hide();
-        $('#label_app_properties').hide();
-        $('#log4j_properties').hide();
-        $('#label_log4j_properties').hide();
-        $('#prod_yml').hide();
-        $('#label_prod_yml').hide();
-    }
+    // if ($("input[name='type']").val() == "node") {
+    //     $('#application_properties').hide();
+    //     $('#label_application_properties').hide();
+    //     $('#log4j_properties').hide();
+    //     $('#label_log4j_properties').hide();
+    //     $('#remote_sh').hide();
+    //     $('#label_remote_sh').hide();
+    // } else if ($("input[name='type']").val() == "java"){
+    //     $('#prod_yml').hide();
+    //     $('#label_prod_yml').hide();
+    //     $('#remote_sh').hide();
+    //     $('#label_remote_sh').hide();
+    // }else if ($("input[name='type']").val() == "shell"){
+    //     $('#application_properties').hide();
+    //     $('#label_application_properties').hide();
+    //     $('#log4j_properties').hide();
+    //     $('#label_log4j_properties').hide();
+    //     $('#prod_yml').hide();
+    //     $('#label_prod_yml').hide();
+    // }
 });
 </script>

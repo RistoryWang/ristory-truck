@@ -141,7 +141,13 @@ func (this *TaskController) Create() {
 		//this.checkError(err)
 		//this.Data["type"] = project.Type
 
-		envList, _ := service.EnvService.GetEnvListByProjectId(projectId)
+
+
+		role, err := service.RoleService.GetRole(this.userId)
+		this.checkError(err)
+
+
+		envList, _ := service.EnvService.GetEnvListByProjectIdFilter(projectId, role.Id)
 		this.Data["projectId"] = projectId
 		this.Data["envList"] = envList
 		this.display()

@@ -23,16 +23,17 @@
 					<thead>
 					<tr>
 						<th>ID</th>
-						<th>环境名称</th>
-						{{if eq .type "java"}}
-						<th>app.properties</th>
-						<th>log4j.properties</th>
-						{{else if eq .type "node"}}
-						<th>prod.yml</th>
-						{{else if eq .type "shell"}}
-						<th>shell.param</th>
-						{{else}}
-						{{end}}
+						<th>发布环境名称</th>
+                        <th>发布环境类型</th>
+						{{/*{{if eq .type "java"}}*/}}
+						{{/*<th>application.properties</th>*/}}
+						{{/*<th>log4j.properties</th>*/}}
+						{{/*{{else if eq .type "node"}}*/}}
+						{{/*<th>prod.yml</th>*/}}
+						{{/*{{else if eq .type "shell"}}*/}}
+						{{/*<th>shell.param</th>*/}}
+						{{/*{{else}}*/}}
+						{{/*{{end}}*/}}
 						<th>SSH帐号</th>
 						<th>SSH端口</th>
 						<!--<th>发布目录</th>-->
@@ -45,17 +46,24 @@
 						<tr>
 							<td class="center">{{$v.Id}}</td>
 							<td>{{$v.Name}}</td>
-
-
-							{{if eq $v.Type "java"}}
-							<td>{{$v.AppProperties}}</td>
-							<td>{{$v.Log4jProperties}}</td>
-							{{else if eq $v.Type "node"}}
-							<td>{{$v.ProdYml}}</td>
-							{{else if eq $v.Type "shell"}}
-							<td>{{$v.RemoteSh}}</td>
-							{{else}}
+                            <td>
+							{{if eq $v.EnvType "dev"}}
+                                <b class="green">开发环境(dev)</b>
+							{{else if eq $v.EnvType "test"}}
+                                <b class="orange">测试环境(test* + uat)</b>
+							{{else if eq $v.EnvType "prod"}}
+                                <b class="red">正式环境(gray + prod)</b>
 							{{end}}
+                            </td>
+							{{/*{{if eq $v.Type "java"}}*/}}
+							{{/*<td>{{$v.ApplicationProperties}}</td>*/}}
+							{{/*<td>{{$v.Log4jProperties}}</td>*/}}
+							{{/*{{else if eq $v.Type "node"}}*/}}
+							{{/*<td>{{$v.ProdYml}}</td>*/}}
+							{{/*{{else if eq $v.Type "shell"}}*/}}
+							{{/*<td>{{$v.RemoteSh}}</td>*/}}
+							{{/*{{else}}*/}}
+							{{/*{{end}}*/}}
 
 
 							<td>{{$v.SshUser}}</td>

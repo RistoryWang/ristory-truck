@@ -82,7 +82,7 @@ build)
     rebuild
     ;;
 *)
-    echo "Juk-Truck启动脚本"
+    echo "Pg-Truck启动脚本"
     echo "用法: "
     echo "    ./service.sh (start|stop|restart|status)"
 ;;

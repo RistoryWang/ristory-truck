@@ -177,28 +177,29 @@ func (this *DeployJob) CreateScript() (string, error) {
 		f.WriteString("echo 'SSH登录到 " + ip + " 执行脚本'\n")
 
 		if this.project.Type == "shell" {
-			var shellRemote = "curl -o- ftp://192.168.10.168/shell4deployment/" +
+			var shellRemote = "curl -o- http://172.16.29.212/" +
 				this.project.Domain+"-"+this.task.EndVer + ".sh | bash -s -- " + this.env.RemoteSh
 			f.WriteString("ssh -o StrictHostKeyChecking=no -p " + serverPort + " -i " + serverKey + " " + serverUser + "@" + ip + " '" + shellRemote + "'\n\n")
 		}else{
 			var refreshShell =  "mkdir -p /home/deployer/conf/"+this.project.Domain+" && " +
+				"mkdir -p /home/deployer/server && " +
 				"cd /home/deployer/server && " +
 				"rm -rf /home/deployer/server/updateInstance.sh && " +
-				"wget ftp://192.168.10.168/updateInstance.sh && " +
+				"wget --http-user=read --http-passwd=WUFaobHcWB3NYTcgjpr4 https://nexus.panguyr.tech/repository/file/shell/updateInstance.sh && " +
 				"chmod a+x updateInstance.sh"
 			f.WriteString("ssh -o StrictHostKeyChecking=no -p " + serverPort + " -i " + serverKey + " " + serverUser + "@" + ip + " '" + refreshShell + "'\n\n")
 
-			if this.project.Type == "java" {
-				var xar = "cat > /home/deployer/conf/"+this.project.Domain+"/app.properties << EOF \n\n"+this.env.AppProperties+"\n\nEOF"
-				var yar = "cat > /home/deployer/conf/"+this.project.Domain+"/log4j.properties << EOF \n\n"+this.env.Log4jProperties+"\n\nEOF"
-				f.WriteString("ssh -o StrictHostKeyChecking=no -p " + serverPort + " -i " + serverKey + " " + serverUser + "@" + ip + " \"" + xar + "\"\n\n")
-				f.WriteString("ssh -o StrictHostKeyChecking=no -p " + serverPort + " -i " + serverKey + " " + serverUser + "@" + ip + " \"" + yar + "\"\n\n")
-			} else if this.project.Type == "node" {
-				var zar = "cat > /home/deployer/conf/"+this.project.Domain+"/prod.yml << EOF \n\n"+this.env.ProdYml+"\n\nEOF"
-				f.WriteString("ssh -o StrictHostKeyChecking=no -p " + serverPort + " -i " + serverKey + " " + serverUser + "@" + ip + " \"" + zar + "\"\n\n")
-			}
+			//if this.project.Type == "java" {
+			//	var xar = "cat > /home/deployer/conf/"+this.project.Domain+"/application.properties << EOF \n\n"+this.env.ApplicationProperties+"\n\nEOF"
+			//	var yar = "cat > /home/deployer/conf/"+this.project.Domain+"/log4j.properties << EOF \n\n"+this.env.Log4jProperties+"\n\nEOF"
+			//	f.WriteString("ssh -o StrictHostKeyChecking=no -p " + serverPort + " -i " + serverKey + " " + serverUser + "@" + ip + " \"" + xar + "\"\n\n")
+			//	f.WriteString("ssh -o StrictHostKeyChecking=no -p " + serverPort + " -i " + serverKey + " " + serverUser + "@" + ip + " \"" + yar + "\"\n\n")
+			//} else if this.project.Type == "node" {
+			//	var zar = "cat > /home/deployer/conf/"+this.project.Domain+"/prod.yml << EOF \n\n"+this.env.ProdYml+"\n\nEOF"
+			//	f.WriteString("ssh -o StrictHostKeyChecking=no -p " + serverPort + " -i " + serverKey + " " + serverUser + "@" + ip + " \"" + zar + "\"\n\n")
+			//}
 
-			this.project.BeforeShell = "/home/deployer/server/updateInstance.sh "+this.project.Domain+" "+this.task.EndVer
+			this.project.BeforeShell = "/home/deployer/server/updateInstance.sh "+this.project.Domain+" "+this.task.EndVer+" "+this.env.Name+" "+this.env.EnvType
 			f.WriteString("ssh -o StrictHostKeyChecking=no -p " + serverPort + " -i " + serverKey + " " + serverUser + "@" + ip + " '" + this.project.BeforeShell + "'\n\n")
 		}
 

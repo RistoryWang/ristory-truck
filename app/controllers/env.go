@@ -32,8 +32,9 @@ func (this *EnvController) Add() {
 		env := new(entity.Env)
 		env.ProjectId = project.Id
 		env.Name = this.GetString("name")
+		env.EnvType = this.GetString("env_type")
 		env.Type = this.GetString("type")
-		env.AppProperties = this.GetString("app_properties")
+		env.ApplicationProperties = this.GetString("application_properties")
 		env.Log4jProperties = this.GetString("log4j_properties")
 		env.ProdYml = this.GetString("prod_yml")
 		env.RemoteSh = this.GetString("remote_sh")
@@ -95,8 +96,9 @@ func (this *EnvController) Edit() {
 
 	if this.isPost() {
 		env.Name = this.GetString("name")
+		env.EnvType = this.GetString("env_type")
 		env.Type = this.GetString("type")
-		env.AppProperties = this.GetString("app_properties")
+		env.ApplicationProperties = this.GetString("application_properties")
 		env.Log4jProperties = this.GetString("log4j_properties")
 		env.ProdYml = this.GetString("prod_yml")
 		env.RemoteSh = this.GetString("remote_sh")

@@ -28,11 +28,42 @@ func (this *envService) GetEnv(id int) (*entity.Env, error) {
 // 获取某个项目的发布环境列表
 func (this *envService) GetEnvListByProjectId(projectId int) ([]entity.Env, error) {
 	var list []entity.Env
+
 	_, err := o.QueryTable(this.table()).Filter("project_id", projectId).All(&list)
 	for _, env := range list {
 		env.ServerList, _ = this.GetEnvServers(env.Id)
 	}
 	return list, err
+}
+
+
+// 获取某个项目的发布环境列表FilterByRole need modify
+func (this *envService) GetEnvListByProjectIdFilter(projectId int,roleId int) ([]entity.Env, error) {
+	var list []entity.Env
+	var envType string
+	var err2 error
+	if roleId == 5 {
+		envType = "dev"
+	} else if roleId == 6 {
+		envType =  "test"
+	} else if roleId == 7 {
+		envType =  "prod"
+	} else {
+		envType =  "all"
+	}
+
+	if envType ==  "all"{
+		_, err := o.QueryTable(this.table()).Filter("project_id", projectId).All(&list)
+		err2 = err
+	} else {
+		_, err := o.QueryTable(this.table()).Filter("project_id", projectId).Filter("env_type", envType).All(&list)
+		err2 = err
+	}
+
+	for _, env := range list {
+		env.ServerList, _ = this.GetEnvServers(env.Id)
+	}
+	return list, err2
 }
 
 // 根据服务器id发布环境列表

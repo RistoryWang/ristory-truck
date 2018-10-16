@@ -10,9 +10,10 @@ type Env struct {
 	ProjectId   int       `orm:"index"`                       // 项目id
 	Name        string    `orm:"size(20)"`                    // 发布环境名称
 	Type        string    `orm:"size(20)"`                    // 项目编程语言
-	AppProperties   string    `orm:"type(text)"`                  // app.properties
-	Log4jProperties   string    `orm:"type(text)"`                  // log4j.properties
-	ProdYml   string    `orm:"type(text)"`                  // prod.yml
+	EnvType        string    `orm:"size(20)"`         		  // 所属环境类型
+	ApplicationProperties   string    `orm:"type(text)"`      // application.properties
+	Log4jProperties   string    `orm:"type(text)"`            // log4j.properties
+	ProdYml   string    `orm:"type(text)"`                    // prod.yml
 	RemoteSh   	string    `orm:"type(text)"`                  // remote.sh
 	SshUser     string    `orm:"size(20)"`                    // 发布帐号
 	SshPort     string    `orm:"size(10)"`                    // SSH端口

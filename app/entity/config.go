@@ -10,7 +10,7 @@ type Config struct {
 	Name          string    `orm:"size(100)"`                   // 项目名称
 	Type          string    `orm:"size(100)"`                   // 项目名称
 	Domain        string    `orm:"size(100)"`                   // 项目标识
-	AppProperties   string    `orm:"type(text)"`                  // app.properties
+	ApplicationProperties   string    `orm:"type(text)"`                  // application.properties
 	Log4jProperties   string    `orm:"type(text)"`                  // log4j.properties
 	ProdYml   string    `orm:"type(text)"`                  // prod.yml
 	Version       string    `orm:"size(20)"`                    // 最后发布版本
