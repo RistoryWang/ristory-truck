@@ -13,7 +13,9 @@ import (
 type TaskController struct {
 	BaseController
 }
-
+type SumRoleId struct {
+	sumRoleId	int
+}
 // 列表
 func (this *TaskController) List() {
 	status, _ := this.GetInt("status")
@@ -141,10 +143,24 @@ func (this *TaskController) Create() {
 		//this.checkError(err)
 		//this.Data["type"] = project.Type
 
-		var roleId int
-		roleId = this.auth.GetUser().RoleList[0].Id
 
-		envList, _ := service.EnvService.GetEnvListByProjectIdFilter(projectId, roleId)
+		var sumRoleId int
+		if this.userId == 1{
+			sumRoleId = 1
+		} else {
+			//roleList := this.auth.GetUser().RoleList
+			//for _, role := range roleList {
+			//	sumRoleId += role.Id
+			//
+			//}
+			var sumRoleIdReturn int
+			sumRoleIdReturn , err := service.RoleService.SumRoleId(this.userId)
+			this.checkError(err)
+			sumRoleId = sumRoleIdReturn
+
+
+		}
+		envList, _ := service.EnvService.GetEnvListByProjectIdFilter(projectId, sumRoleId)
 		this.Data["projectId"] = projectId
 		this.Data["envList"] = envList
 		this.display()

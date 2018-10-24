@@ -21,3 +21,8 @@ type RolePerm struct {
 	RoleId int    // 角色id
 	Perm   string `orm:"size(50)"` // 权限
 }
+
+// 角色权限
+type RoleSum struct {
+	SumRoleId int    // 角色id sum
+}

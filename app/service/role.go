@@ -2,13 +2,65 @@ package service
 
 import (
 	"errors"
+	"fmt"
+	"github.com/astaxie/beego/orm"
 	"github.com/ristorywang/ristory-truck/app/entity"
+	"strconv"
 )
 
 type roleService struct{}
 
+//type SumRoleId struct {
+//	sumRoleId	int
+//}
+
 func (this *roleService) table() string {
 	return tableName("role")
+}
+
+
+func (this *roleService) SumRoleId(id int) (int, error) {
+
+
+
+	//var users []User
+	//num, err := o.Raw("SELECT id, user_name FROM user WHERE id = ?", 1).QueryRows(&users)
+	//if err == nil {
+	//	fmt.Println("user nums: ", num)
+	//}
+
+
+	var maps []orm.Params
+	var acc int
+	num , err := o.Raw("select sum(role_id) as sum_role_id from "+tableName("user_role")+" WHERE user_id = ?", id).Values(&maps)
+	//result := make([]map[string]int, 0, num)
+	if err == nil && num > 0 {
+		fmt.Println(maps[0]["sum_role_id"])
+	}
+
+
+
+
+
+	if err == nil && num > 0 {
+		for _, v := range maps {
+			sumRoleId, _ := strconv.Atoi(v["sum_role_id"].(string))
+			//result = append(result, map[string]int{
+			//	"project_id": projectId,
+			//	"count":      count,
+			//})
+			acc = sumRoleId
+		}
+	}
+	return acc, err
+
+	//
+	//
+	//
+	//
+	//
+	//sumRoleId := maps[0]["sum_role_id"]
+	//return sumRoleId ,err
 }
 
 // 根据id获取角色信息

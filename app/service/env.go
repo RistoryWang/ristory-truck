@@ -37,26 +37,52 @@ func (this *envService) GetEnvListByProjectId(projectId int) ([]entity.Env, erro
 }
 
 
-// 获取某个项目的发布环境列表FilterByRole need modify
+// 获取某个项目的发布环境列表FilterByRole
+// TODO hard code need modify
 func (this *envService) GetEnvListByProjectIdFilter(projectId int,roleId int) ([]entity.Env, error) {
 	var list []entity.Env
 	var envType string
 	var err2 error
-	if roleId == 5 {
-		envType = "dev"
+	if roleId == 1 {
+		envType = "all"
+	} else if roleId == 5 {
+		envType =  "dev"
 	} else if roleId == 6 {
 		envType =  "test"
 	} else if roleId == 7 {
 		envType =  "prod"
+	} else if roleId == 11 {
+		envType =  "dev+test"
+	} else if roleId == 12 {
+		envType =  "dev+prod"
+	} else if roleId == 13 {
+		envType =  "test+prod"
+	} else if roleId == 18 {
+		envType =  "dev+test+prod"
 	} else {
-		envType =  "all"
+		envType =  "none"
 	}
 
 	if envType ==  "all"{
 		_, err := o.QueryTable(this.table()).Filter("project_id", projectId).All(&list)
 		err2 = err
-	} else {
+	} else if envType ==  "dev"||envType ==  "test"||envType ==  "prod"{
 		_, err := o.QueryTable(this.table()).Filter("project_id", projectId).Filter("env_type", envType).All(&list)
+		err2 = err
+	} else if envType ==  "dev+test"{
+		_, err := o.QueryTable(this.table()).Filter("project_id", projectId).Exclude("env_type", "prod").All(&list)
+		err2 = err
+	} else if envType ==  "dev+prod"{
+		_, err := o.QueryTable(this.table()).Filter("project_id", projectId).Exclude("env_type", "test").All(&list)
+		err2 = err
+	} else if envType ==  "test+prod"{
+		_, err := o.QueryTable(this.table()).Filter("project_id", projectId).Exclude("env_type", "dev").All(&list)
+		err2 = err
+	} else if envType ==  "dev+test+prod"{
+		_, err := o.QueryTable(this.table()).Filter("project_id", projectId).All(&list)
+		err2 = err
+	} else {
+		_, err := o.QueryTable(this.table()).Filter("project_id", projectId).Filter("env_type", "none").All(&list)
 		err2 = err
 	}
 
