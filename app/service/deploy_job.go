@@ -199,7 +199,7 @@ func (this *DeployJob) CreateScript() (string, error) {
 			//	f.WriteString("ssh -o StrictHostKeyChecking=no -p " + serverPort + " -i " + serverKey + " " + serverUser + "@" + ip + " \"" + zar + "\"\n\n")
 			//}
 
-			this.project.BeforeShell = "/home/deployer/server/updateInstance.sh "+this.project.Domain+" "+this.task.EndVer+" "+this.env.Name+" "+this.env.EnvType
+			this.project.BeforeShell = "/home/deployer/server/updateInstance.sh "+this.project.Type+" "+this.project.Domain+" "+this.task.EndVer+" "+this.env.Name+" "+this.env.EnvType
 			f.WriteString("ssh -o StrictHostKeyChecking=no -p " + serverPort + " -i " + serverKey + " " + serverUser + "@" + ip + " '" + this.project.BeforeShell + "'\n\n")
 		}
 
