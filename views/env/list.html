@@ -50,9 +50,9 @@
 							{{if eq $v.EnvType "dev"}}
                                 <b class="green">开发环境(dev)</b>
 							{{else if eq $v.EnvType "test"}}
-                                <b class="orange">测试环境(test* + uat)</b>
+                                <b class="orange">测试环境(test*)</b>
 							{{else if eq $v.EnvType "prod"}}
-                                <b class="red">正式环境(gray + prod)</b>
+                                <b class="red">正式环境(uat+gray+prod)</b>
 							{{end}}
                             </td>
 							{{/*{{if eq $v.Type "java"}}*/}}
