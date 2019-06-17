@@ -4,7 +4,7 @@
 	<form class="form-horizontal ajax-form" name="create_task" method="post" action="{{urlfor "TaskController.Create"}}">
 		<input type="hidden" name="project_id" value="{{.projectId}}" />
 		<input type="hidden" name="editor_content" />
-	<!--<input type="hidden" name="type" value="{{.type}}" /> -->
+		<input type="hidden" name="project_type" value="{{.projectType}}" />
 	<!--<div class="form-group">
         <label for="ver_type" class="col-sm-2 control-label">版本类型</label>
         <div class="col-sm-3">
@@ -127,5 +127,11 @@ jQuery(function($){
 			$('#group_start_ver').show();
 		}
 	});
+
+	if ($("input[name='project_type']").val() == "nginx") {
+		$("#end_ver").prop("value",new Date().getTime().toString());
+		$("#end_ver").prop("readonly",true);
+	}
+
 });
 </script>

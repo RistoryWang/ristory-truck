@@ -180,7 +180,17 @@ func (this *DeployJob) CreateScript() (string, error) {
 			var shellRemote = "curl -o- http://172.16.29.212/" +
 				this.project.Domain+"-"+this.task.EndVer + ".sh | bash -s -- " + this.env.RemoteSh
 			f.WriteString("ssh -o StrictHostKeyChecking=no -p " + serverPort + " -i " + serverKey + " " + serverUser + "@" + ip + " '" + shellRemote + "'\n\n")
-		}else{
+		} else if this.project.Type == "nginx" {
+			var refreshShell =  "mkdir -p /home/deployer/conf-mw && " +
+				"cd /home/deployer/server && " +
+				"rm -rf /home/deployer/server/updateMiddleware.sh && " +
+				"wget --http-user=read --http-passwd=WUFaobHcWB3NYTcgjpr4 https://nexus.panguyr.tech/repository/file/shell/updateMiddleware.sh && " +
+				"chmod a+x updateMiddleware.sh"
+			f.WriteString("ssh -o StrictHostKeyChecking=no -p " + serverPort + " -i " + serverKey + " " + serverUser + "@" + ip + " '" + refreshShell + "'\n\n")
+
+			this.project.BeforeShell = "/home/deployer/server/updateMiddleware.sh "+this.project.Type+" "+this.project.Domain+" "+this.task.EndVer+" "+this.env.Name+" "+this.env.EnvType
+			f.WriteString("ssh -o StrictHostKeyChecking=no -p " + serverPort + " -i " + serverKey + " " + serverUser + "@" + ip + " '" + this.project.BeforeShell + "'\n\n")
+		} else{
 			var refreshShell =  "mkdir -p /home/deployer/conf/"+this.project.Domain+" && " +
 				"mkdir -p /home/deployer/server && " +
 				"cd /home/deployer/server && " +

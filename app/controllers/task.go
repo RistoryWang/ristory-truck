@@ -161,8 +161,13 @@ func (this *TaskController) Create() {
 
 		}
 		envList, _ := service.EnvService.GetEnvListByProjectIdFilter(projectId, sumRoleId)
+		project, err := service.ProjectService.GetProject(projectId)
+		this.checkError(err)
+
 		this.Data["projectId"] = projectId
 		this.Data["envList"] = envList
+		this.Data["projectType"] = project.Type
+
 		this.display()
 	}
 }
